@@ -5,3 +5,5 @@ Debug/
 Debug
 .obj
 .pdb
+Release/
+*Release/

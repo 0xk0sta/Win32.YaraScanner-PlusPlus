@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "list.h"
+#include "resource.h"
 
 
 typedef struct s_region_info {
@@ -18,14 +19,15 @@ typedef struct s_region_info {
 	DWORD	type;
 } t_region_info;
 
-class Utils {
-public:
-	static int			s_fclose(FILE* f);
-	static void			*Alloc(size_t sz);
-	static void			PrintHex(uint8_t *buffer, uint32_t sz);
-	static const char	*GetProtStr(DWORD prot);
-	static t_list		*GetProcessRegions(HANDLE hProcess);
-	static uint8_t*		GetTime();
-	static uint8_t*		WideToCStr(wchar_t* s);
-	static HANDLE		s_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD pid);
+namespace Utils {
+
+	uint8_t		*GetResource();
+	int			s_fclose(FILE* f);
+	void		*Alloc(size_t sz);
+	void		PrintHex(uint8_t *buffer, uint32_t sz);
+	const char	*GetProtStr(DWORD prot);
+	t_list		*GetProcessRegions(HANDLE hProcess);
+	uint8_t*	GetTime();
+	uint8_t*	WideToCStr(wchar_t* s);
+	HANDLE		s_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD pid);
 };

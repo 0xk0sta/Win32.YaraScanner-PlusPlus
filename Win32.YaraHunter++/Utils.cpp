@@ -1,5 +1,18 @@
 #include "Utils.h"
 
+uint8_t *Utils::GetResource() {
+	HRSRC	hRsrc;
+	HGLOBAL hDat;
+	uint8_t* p;
+
+	hRsrc = FindResource(NULL, MAKEINTRESOURCE(DATA), MAKEINTRESOURCE(YAR));
+	if (!hRsrc) return NULL;
+	hDat = LoadResource(NULL, hRsrc);
+	if (!hDat) return NULL;
+	p = (uint8_t*)LockResource(hDat);
+	return p;
+}
+
 int Utils::s_fclose(FILE* f) {
 
 	if (!f || fclose(f)) return 1;

@@ -4,18 +4,18 @@
 #include <iostream>
 #include <string>
 #include <yara.h>
+#include "utils.h"
 
-#include "resource.h"
 
 class SimpleYara
 {
 public:
-	SimpleYara(std::string rule_file);
+	SimpleYara(void);
 	SimpleYara(uint8_t *rule_buffer);
 	~SimpleYara();
-	YR_RULES *get_rules(void);
+	YR_RULES *GetRules(void);
 private:
-	bool add_rule_from_buf(uint8_t *rule_buffer);
+	bool AddRuleFromBuffer(uint8_t *rule_buffer);
 	YR_COMPILER *compiler;
 	YR_RULES	*rules;
 };

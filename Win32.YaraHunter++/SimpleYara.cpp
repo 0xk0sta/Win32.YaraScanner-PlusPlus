@@ -1,20 +1,7 @@
 #include "SimpleYara.h"
 /* make this a utils class method */
 
-uint8_t *get_rsrc() {
-	HRSRC	hRsrc;
-	HGLOBAL hDat;
-	uint8_t* p;
-
-	hRsrc = FindResource(NULL, MAKEINTRESOURCE(DATA), MAKEINTRESOURCE(YAR));
-	if (!hRsrc) return NULL;
-	hDat = LoadResource(NULL, hRsrc);
-	if (!hDat) return NULL;
-	p = (uint8_t*)LockResource(hDat);
-	return p;
-}
-
-bool SimpleYara::add_rule_from_buf(uint8_t *rule_buffer) {
+bool SimpleYara::AddRuleFromBuffer(uint8_t *rule_buffer) {
 	
 	if (yr_compiler_add_string(this->compiler, (const char *)rule_buffer, NULL) != ERROR_SUCCESS
 		|| yr_compiler_get_rules(this->compiler, &(this->rules)) != ERROR_SUCCESS) {
@@ -24,22 +11,22 @@ bool SimpleYara::add_rule_from_buf(uint8_t *rule_buffer) {
 	return TRUE;
 }
 
-YR_RULES *SimpleYara::get_rules() { return this->rules; }
+YR_RULES *SimpleYara::GetRules() { return this->rules; }
 
-SimpleYara::SimpleYara(std::string rule_file) {
-	if (yr_initialize() != ERROR_SUCCESS) throw std::runtime_error("[!]\tError: Error initializing yara engine.\n");
+SimpleYara::SimpleYara() {
+	if (yr_initialize() != ERROR_SUCCESS) throw std::runtime_error("[!]::Error::[Error initializing yara engine.]");
 
-	if (yr_compiler_create(&(this->compiler)) != ERROR_SUCCESS) throw std::runtime_error("[!]\tError: Error creating yara compiler!\n");
+	if (yr_compiler_create(&(this->compiler)) != ERROR_SUCCESS) throw std::runtime_error("[!]::Error::[Error creating yara compiler!]");
 
-	if (this->add_rule_from_buf(get_rsrc()) != TRUE) throw std::runtime_error("[!]\tError: Error compiling rules!\n");
+	if (this->AddRuleFromBuffer(Utils::GetResource()) != TRUE) throw std::runtime_error("[!]::Error::[Error compiling rules!]");
 }
 
 SimpleYara::SimpleYara(uint8_t *rule_buffer) {
-	if (yr_initialize() != ERROR_SUCCESS) throw std::runtime_error("[!]\tError: Error initializing yara engine.\n");
+	if (yr_initialize() != ERROR_SUCCESS) throw std::runtime_error("[!]::Error::[Error initializing yara engine.]");
 
-	if (yr_compiler_create(&(this->compiler)) != ERROR_SUCCESS) throw std::runtime_error("[!]\tError: Error creating yara compiler!\n");
+	if (yr_compiler_create(&(this->compiler)) != ERROR_SUCCESS) throw std::runtime_error("[!]::Error::[Error creating yara compiler!]");
 
-	if (this->add_rule_from_buf(rule_buffer) != TRUE) throw std::runtime_error("[!]\tError: Error compiling rules!\n");
+	if (this->AddRuleFromBuffer(rule_buffer) != TRUE) throw std::runtime_error("[!]::Error::[Error compiling rules!]");
 }
 
 SimpleYara::~SimpleYara() {

@@ -1,6 +1,16 @@
 #include <iostream>
+#include "SimpleYara.h"
+#include "Agent.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	SimpleYara	*yara;
+	Agent		*agent;
+	try {
+		yara = new SimpleYara();
+		agent = new Agent(yara);
+		while (true) agent->ProcScanner();
+	} catch (std::runtime_error &e) {
+		std::cout << e.what() << std::endl;
+	}
 }
