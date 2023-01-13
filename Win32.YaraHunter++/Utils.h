@@ -30,4 +30,5 @@ namespace Utils {
 	uint8_t*	GetTime();
 	uint8_t*	WideToCStr(wchar_t* s);
 	HANDLE		s_OpenProcess(DWORD dwDesiredAccess, BOOL bInheritHandle, DWORD pid);
+	
 };
